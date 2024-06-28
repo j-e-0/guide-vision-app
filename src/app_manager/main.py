@@ -8,38 +8,27 @@ class AppManager:
         alert_sound = SoundManager()
 
         while True:
-            result = video_process.processing()
-            
-            left_speed = result["left"]
-            left_med_speed = result["left_med"]
-            center_speed = result["center"]
-            right_med_speed = result["right_med"]
-            right_speed = result["right"]
-            
-            ## Size of objects between 0 and 1
+            ## Size of objects between 0.0 and 1.0
             ## Proximily to 1 is bigger and proximily 0 is minner
             ## Value 0 no object detected in this orientation
-            print(result)
-
-            if(left_speed > 0):
-                speed = 1.2 + round(left_speed,1)
-                alert_sound.play_audio(panning=-1, speed_factor=speed)
+            results = video_process.processing()
             
-            if(left_med_speed > 0):
-                speed = 1.2 + round(left_med_speed,1)
-                alert_sound.play_audio(panning=-.5, speed_factor=speed)
+            ## Panning | Orientation
+            ## -1      | Left
+            ## -.5     | Left Med
+            ## 0       | Center
+            ## .5      | Right Med
+            ## 1       | Right
+            panning = -1
             
-            if(center_speed > 0):
-                speed = 1.2 + round(center_speed,1)
-                alert_sound.play_audio(panning=0, speed_factor=speed)
+            for orientation in results:
+                speed = results[orientation]
                 
-            if(right_med_speed > 0):
-                speed = 1.2 + round(right_med_speed,1)
-                alert_sound.play_audio(panning=.5, speed_factor=speed)
-                
-            if(right_speed > 0):
-                speed = 1.2 + round(right_speed,1)
-                alert_sound.play_audio(panning=1, speed_factor=speed)
+                if(speed > 0):
+                    speed = 1.2 + round(speed,1)
+                    alert_sound.play_audio(panning=panning, speed_factor=speed)
+                                        
+                panning +=.5
                 
 if __name__ == '__main__':
     AppManager()

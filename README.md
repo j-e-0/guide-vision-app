@@ -22,6 +22,12 @@ Key libraries used include:
 - NumPy
 - sounddevice
 
+Download YOLOv4 Weights (`yolov4.weights`) and put on path `assets/yolov4/`
+
+## Example Operation App
+
+![objects detection](/docs/guide_vision_operation.png "Example objects detection").
+
 ## Running Project
 
 On the root path:
